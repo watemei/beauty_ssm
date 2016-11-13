@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="1800">
+
+	<properties>
+		<property name="LOG_HOME">/home/data/log/</property>
+		<property name="FILE_NAME">lejaneapi</property>
+	</properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d{yyyy/MM/dd HH:mm:ss,SSS}] [%-5p] [%thread] - %msg%n" />
+		</Console>
+		
+		<RollingRandomAccessFile name="debug-log"
+			fileName="${LOG_HOME}/${FILE_NAME}-debug.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-debug-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="[%d{yyyy/MM/dd HH:mm:ss,SSS}] [%-5p] [%thread] - %msg%n" />
+				 <Filters>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </Filters>
+            <Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="info-log"
+			fileName="${LOG_HOME}/${FILE_NAME}-info.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-info-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="[%d{yyyy/MM/dd HH:mm:ss,SSS}] [%-5p] [%thread] - %msg%n" />
+				 <Filters>
+	               <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+	               <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+                 </Filters>
+            <Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+		<RollingRandomAccessFile name="error-log"
+			fileName="${LOG_HOME}/${FILE_NAME}-error.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-error-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="[%d{yyyy/MM/dd HH:mm:ss,SSS}] [%-5p] [%thread] - %msg%n" />
+            	<Filters>
+                  <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+                </Filters>
+            <Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.iigeo" level="trace"
+			additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="info-log"/>
+            <AppenderRef ref="error-log"/>
+            <AppenderRef ref="debug-log"/>
+		</Logger>
+	</Loggers>
+</Configuration>
