@@ -25,7 +25,7 @@ public class IpInterceptor extends HandlerInterceptorAdapter {
 		boolean status = false;
 		String remoteIp = IpUtil.getIpAddr(request);
 		log.info(remoteIp);
-		String ips = systemUtil.getIps();
+		String ips = SystemUtil.getValue("ips.durid");
 		if(StringUtils.isBlank(ips)){
 			return true;
 		}
