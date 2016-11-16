@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.stereotype.Component;
 
 public class SystemUtil {
 	private static Logger logger = LogManager.getLogger(SystemUtil.class);
