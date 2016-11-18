@@ -1,17 +1,17 @@
 package com.iigeo.ssm.cache;
 
-import org.springframework.stereotype.Component;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import com.iigeo.ssm.util.ProtoStuffSerializerUtil;
+import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.iigeo.ssm.util.ProtoStuffSerializerUtil;
 
 
 /**
@@ -22,7 +22,7 @@ import java.util.Set;
  * @author yingjun
  *
  */
-@Component
+@Service("clusterCache")
 public class RedisClusterCache {
 	
 	

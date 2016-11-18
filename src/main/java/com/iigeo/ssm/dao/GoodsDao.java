@@ -1,12 +1,14 @@
 package com.iigeo.ssm.dao;
 
-import org.apache.ibatis.annotations.Param;
-
-import com.iigeo.ssm.entity.Goods;
-
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.iigeo.ssm.entity.Goods;
+
+@Repository("goodsDao")
 public interface GoodsDao {
 	 /**
      * 根据偏移量查询可用商品列表

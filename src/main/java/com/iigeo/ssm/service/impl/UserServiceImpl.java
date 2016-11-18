@@ -1,24 +1,25 @@
 package com.iigeo.ssm.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.iigeo.ssm.cache.RedisCache;
 import com.iigeo.ssm.dao.UserDao;
 import com.iigeo.ssm.entity.User;
 import com.iigeo.ssm.service.UserService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	@Autowired
+	@Resource(name="userDao")
 	private UserDao userDao;
-	@Autowired
+	@Resource(name="cache")
 	private RedisCache cache;
 	
 	

@@ -16,7 +16,6 @@ import com.iigeo.ssm.util.SystemUtil;
 public class IpInterceptor extends HandlerInterceptorAdapter {
 	private static Logger log = LogManager.getLogger(IpInterceptor.class);
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private SystemUtil systemUtil;
 	
@@ -25,8 +24,8 @@ public class IpInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler) throws Exception {
 		boolean status = false;
 		String remoteIp = IpUtil.getIpAddr(request);
-		log.info(remoteIp);
-		String ips = SystemUtil.getValue("ips.durid");
+		String ips = "";
+		log.info(String.format("Remote Ip:%s", remoteIp));
 		if(StringUtils.isBlank(ips)){
 			return true;
 		}

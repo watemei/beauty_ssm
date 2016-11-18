@@ -1,5 +1,17 @@
 package com.iigeo.ssm.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.iigeo.ssm.cache.RedisCache;
 import com.iigeo.ssm.dao.GoodsDao;
 import com.iigeo.ssm.dao.OrderDao;
@@ -10,28 +22,17 @@ import com.iigeo.ssm.enums.ResultEnum;
 import com.iigeo.ssm.exception.BizException;
 import com.iigeo.ssm.service.GoodsService;
 
-import org.apache.commons.collections.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-@Service
+@Service("goodsService")
 public class GoodsServiceImpl implements GoodsService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	@Autowired
+	@Resource(name="goodsDao")
 	private GoodsDao goodsDao;
-	@Autowired
+	@Resource(name="orderDao")
 	private OrderDao orderDao;
-	@Autowired
+	@Resource(name="userDao")
 	private UserDao userDao;
-	@Autowired
+	@Resource(name="cache")
 	private RedisCache cache;
 
 	@Override

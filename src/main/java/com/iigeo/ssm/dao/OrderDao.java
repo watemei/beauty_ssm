@@ -1,11 +1,13 @@
 package com.iigeo.ssm.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import com.iigeo.ssm.entity.Order;
 
 import java.util.List;
 
+@Repository("orderDao")
 public interface OrderDao {
 
 	/**
