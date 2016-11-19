@@ -25,15 +25,18 @@
 	<!--配置DispatcherServlet -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>ssm</param-value>
+		<param-value>web.root</param-value>
 	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/applicationContext.xml</param-value>
 	</context-param>
 
 	<!-- 连接池 启用 Web 监控统计功能 -->
-    <!-- http://ip:port/projectName/druid/index.html -->
+	<!-- http://ip:port/projectName/druid/index.html -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -42,7 +45,7 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -55,7 +58,7 @@
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>DruidIpFilter</filter-name>
 		<filter-class>com.iigeo.ssm.filter.IpFilter</filter-class>
@@ -68,7 +71,7 @@
 		<filter-name>DruidIpFilter</filter-name>
 		<url-pattern>/druid/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -94,7 +97,7 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
-    <!-- Security乐简 -->
+	<!-- Security乐简 -->
 	<filter>
 		<filter-name>LeJianSecurityFilter</filter-name>
 		<filter-class>com.iigeo.ssm.filter.LeJianSecurityFilter</filter-class>
@@ -102,7 +105,7 @@
 	<filter>
 		<filter-name>SecurityAuthFilter</filter-name>
 		<filter-class>com.iigeo.ssm.filter.SecurityAuthFilter</filter-class>
-	</filter>	
+	</filter>
 	<filter-mapping>
 		<filter-name>LeJianSecurityFilter</filter-name>
 		<url-pattern>/good/*</url-pattern>
