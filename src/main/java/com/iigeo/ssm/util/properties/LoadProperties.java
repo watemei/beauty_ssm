@@ -1,4 +1,4 @@
-package com.iigeo.ssm.util;
+package com.iigeo.ssm.util.properties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +31,7 @@ public class LoadProperties {
 			setValueInMapFormFile(propertiesFile); 
 		}
 		propertiesHolder.setPropertiesCache(propertiesCache); 
-		FileWatchTask fileWatchTask = new FileWatchTask(clazPath, this);
+		DirWatcher fileWatchTask = new DirWatcher(clazPath, this);
 		
         cachedThreadPool.execute(fileWatchTask);
 		LOG.info("LoadProperties file readed finish.");

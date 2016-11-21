@@ -1,4 +1,4 @@
-package com.iigeo.ssm.util;
+package com.iigeo.ssm.util.properties;
 
 import java.util.HashMap;
 import java.util.Map;

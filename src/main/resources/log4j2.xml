@@ -60,11 +60,11 @@
 
 	<Loggers>
 		<Logger name="com.iigeo" level="trace"
-			additivity="false">
+			additivity="true">
 			<AppenderRef ref="Console"/>
-			<AppenderRef ref="info-log"/>
+			<!-- <AppenderRef ref="info-log"/>
             <AppenderRef ref="error-log"/>
-            <AppenderRef ref="debug-log"/>
+            <AppenderRef ref="debug-log"/> -->
 		</Logger>
 	</Loggers>
 </Configuration>

@@ -24,6 +24,12 @@
 			<artifactId>commons-csv</artifactId>
 			<version>1.1</version>
 		</dependency>
+		<!-- BeanTransfer orika-->
+		<dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.4.6</version><!-- or latest version -->
+        </dependency>
 		
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
