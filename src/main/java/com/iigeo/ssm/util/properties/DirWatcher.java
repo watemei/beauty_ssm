@@ -1,4 +1,4 @@
-package com.iigeo.ssm.util;
+package com.iigeo.ssm.util.properties;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -12,12 +12,12 @@ import java.nio.file.WatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileWatchTask implements Runnable {
+public class DirWatcher implements Runnable {
 	protected static Logger LOG = LoggerFactory.getLogger(LoadProperties.class);
 	private String fileDirectory;
 	private LoadProperties loadProperties;
 
-	public FileWatchTask(String fileDirectory, LoadProperties loadProperties) {
+	public DirWatcher(String fileDirectory, LoadProperties loadProperties) {
 		this.fileDirectory = fileDirectory;
 		this.loadProperties = loadProperties;
 	}
@@ -33,8 +33,7 @@ public class FileWatchTask implements Runnable {
 		try {
 			// 获取文件目录下的Path对象注册到 watchService中。
 			// 监听的事件类型，有创建，删除，以及修改
-			Paths.get(fileDirectory).register(watchService, StandardWatchEventKinds.ENTRY_CREATE,
-					StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
+			Paths.get(fileDirectory).register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
