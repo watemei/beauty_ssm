@@ -6,29 +6,24 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class WatchDir {
-	private static Logger LOG = LogManager.getLogger();
+import com.iigeo.ssm.util.ApplicationContextHolder;
+
+public class WatchDir implements Runnable {
+	private static Logger LOG = LogManager.getLogger(WatchDir.class);
 
 	private boolean recursive = false;
 	private final WatchService watcher;
@@ -42,9 +37,9 @@ public class WatchDir {
 
 		// 遍历
 		if (recursive) {
-			LOG.info("Scanning %s ...\n", path);
+			System.out.format("Scanning %s ...\n", path);
 			registerAll(path);
-			LOG.info("Done.");
+			System.out.println("Done.");
 		} else {
 			register(path);
 		}
@@ -56,14 +51,15 @@ public class WatchDir {
 	 * Register the given directory with the WatchService
 	 */
 	private void register(Path dir) throws IOException {
-		WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+		WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE,
+				ENTRY_MODIFY);
 		if (trace) {
 			Path prev = keys.get(key);
 			if (prev == null) {
-				LOG.info("register: %s\n", dir);
+				System.out.format("register: %s\n", dir);
 			} else {
 				if (!dir.equals(prev)) {
-					LOG.info("update: %s -> %s\n", prev, dir);
+					System.out.format("update: %s -> %s\n", prev, dir);
 				}
 			}
 		}
@@ -76,8 +72,11 @@ public class WatchDir {
 	 */
 	private void registerAll(final Path start) throws IOException {
 		Stream.of(start.toFile().listFiles())
-				.flatMap(file -> file.listFiles() == null ? Stream.of(file) : Stream.of(file.listFiles()))
-				.filter(file -> file.getName().endsWith(".properties")).forEach(file -> {
+				.flatMap(
+						file -> file.listFiles() == null ? Stream.of(file)
+								: Stream.of(file.listFiles()))
+				.filter(file -> file.getName().endsWith(".properties"))
+				.forEach(file -> {
 					try {
 						register(file.toPath());
 					} catch (Exception e) {
@@ -87,12 +86,14 @@ public class WatchDir {
 
 	}
 
-	/**
-	 * Process all events for keys queued to the watcher
-	 */
-	void processEvents() {
-		for (;;) {
+	@SuppressWarnings("unchecked")
+	static <T> WatchEvent<T> cast(WatchEvent<?> event) {
+		return (WatchEvent<T>) event;
+	}
 
+	@Override
+	public void run() {
+		for (;;) {
 			// wait for key to be signalled
 			WatchKey key;
 			try {
@@ -103,7 +104,7 @@ public class WatchDir {
 
 			Path dir = keys.get(key);
 			if (dir == null) {
-				System.err.println("WatchKey not recognized!!");
+				System.out.println("WatchKey not recognized!!");
 				continue;
 			}
 
@@ -120,9 +121,21 @@ public class WatchDir {
 				WatchEvent<Path> ev = cast(event);
 				Path name = ev.context();
 				Path child = dir.resolve(name);
-
-				// print out event
-				LOG.info("%s: %s\n", event.kind().name(), child);
+				if (kind == ENTRY_MODIFY) {
+					try {
+						// 事件启动
+						PropertiesEventObject p = new PropertiesEventObject();
+						p.setChangePath(ev.context());
+						p.setRecursive(recursive);
+						ApplicationContextHolder.getApplicationContext().publishEvent(p);
+					} catch (Exception e) {
+						LOG.error(e);
+					}
+					// print out event
+					System.out.format("%s: %s\n", event.kind().name(), child);
+				}
+				
+				
 
 				// if directory is created, and watching recursively, then
 				// register it and its sub-directories
@@ -149,11 +162,7 @@ public class WatchDir {
 				}
 			}
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-		return (WatchEvent<T>) event;
+		
 	}
 
 }
