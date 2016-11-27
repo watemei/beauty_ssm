@@ -15,9 +15,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd 
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
 
-	<!-- Bean复制 -->
-	<context:component-scan base-package="com.iigeo.ssm.mapper" />
-	<!-- 工具类 -->
-	<context:component-scan base-package="com.iigeo.ssm.util" />
-
+	<util:properties id="gzh1WxProperties" location="classpath:wx-gzh1.properties" />
+	<util:properties id="gzh2WxProperties" location="classpath:wx-gzh2.properties" />
+	<!-- wx类 -->
+	<context:component-scan base-package="com.iigeo.ssm.wx"/>
 </beans>
