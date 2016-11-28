@@ -40,7 +40,7 @@ public class Gzh1WxService extends BaseWxService {
   
   @Autowired
   private Gzh1SubscribeHandler subscribeHandler;
-
+  
   @Override
   protected WxConfig getServerConfig() {
     return this.wxConfig;
@@ -75,5 +75,7 @@ public class Gzh1WxService extends BaseWxService {
   protected AbstractHandler getScanHandler() {
     return null;
   }
-
+ 
+  
+  
 }
