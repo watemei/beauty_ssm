@@ -31,6 +31,8 @@ public class WxAccount {
 	
 	private String country;
 	
+	private String headimgurl;
+	
 	private String unionid;
 	
 	private String remark;

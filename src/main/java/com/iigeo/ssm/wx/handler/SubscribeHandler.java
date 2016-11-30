@@ -44,6 +44,8 @@ public abstract class SubscribeHandler extends AbstractHandler {
 			// TODO 可以添加关注用户到本地
 			WxAccount wxAccount = orikaBeanMapper.map(userWxInfo, WxAccount.class);
 			wxAccount.setSubscribe(userWxInfo.getSubscribe() ? 1 : 0);
+			this.logger.info(wxAccount.toString());
+			
 			wxAccountService.insert(wxAccount);
 		}
 
